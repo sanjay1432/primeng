@@ -8,12 +8,12 @@ export class CarService {
 
   }
 
-  public getCarsSmall() {
-   return this.getJSON().subscribe(data => {
-      console.log(data);
-  });
-  }
-  public getJSON(): Observable<any> {
+  // public getStory() {
+  //  return this.getJSON().subscribe(data => {
+  //     console.log(data);
+  // });
+  // }
+  public getJSON() {
     return this.http.get('../assets/mydata.json');
 }
 

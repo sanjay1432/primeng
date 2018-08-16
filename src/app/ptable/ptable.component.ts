@@ -8,21 +8,44 @@ import { CarService } from '../car.service';
 export class PtableComponent implements OnInit {
   active = false;
 
-  cols: any[];
-  constructor(private carService: CarService) { }
+
+  news;
+  scrollableCols: { field: string; header: string; }[];
+  cols: { field: string; header: string; }[];
+  loading: boolean;
+  storyResponseModel: any;
+
+  
+  constructor(private carService: CarService) {
+    
+    this.cols = [
+      { field: 'name', header: 'Story Name' },
+      { field: 'status', header: 'Status' }
+  ];
+
+  this.scrollableCols = [
+      { field: 'name', header: 'Story Name' },
+      { field: 'status', header: 'Status' },
+      
+  ];
+   }
 
   ngOnInit() {
-    const cars = this.carService.getCarsSmall();
-    console.log(cars);
 
-    this.cols = [
-        { field: 'vin', header: 'Vin' },
-        {field: 'year', header: 'Year' },
-        { field: 'brand', header: 'Brand' },
-        { field: 'color', header: 'Color' }
-    ];
   }
 
+  loadDataOnScroll(event) {
+    this.loading = true;
+
+
+        //for demo purposes keep loading the same dataset
+        //in a real production application, this data should come from server by building the query with LazyLoadEvent options
+        setTimeout(() => {
+
+             this.carService.getJSON().subscribe(data => this.storyResponseModel = data);
+            this.loading = false;
+        }, 1000);
+    }
   handleClick(e) {
     if (this.active) {
       this.active = false;
